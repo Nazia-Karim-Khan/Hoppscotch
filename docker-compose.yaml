@@ -1,0 +1,26 @@
+services:
+  postgres:
+    image: postgres:latest
+    restart: always
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=hoppscotch
+    volumes:
+      - postgres:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+  hoppscotch:
+    image: hoppscotch/hoppscotch
+    ports:
+      - "3000:3000"
+      - "3100:3100"
+      - "3170:3170"
+    env_file:
+      - .env
+    restart: unless-stopped
+    # command: sh -c "sleep infinity"
+
+volumes:
+ postgres:
+

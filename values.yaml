@@ -1,0 +1,36 @@
+replicaCount: 1
+
+image:
+  repository: hoppscotch/hoppscotch
+  tag: 2024.8.2
+  pullPolicy: IfNotPresent
+
+nameOverride: ""
+fullnameOverride: ""
+
+service:
+  type: ClusterIP
+  port: 80
+  containerPort: 3000
+
+ingress:
+  enabled: false
+  hosts:
+    - host: hoppscotch.fintech23.xyz
+      paths: ["/"]
+  tls:
+  - hosts:
+    - hoppscotch.fintech23.xyz
+    secretName: fintech23xyz-ingress-tls
+
+resources:
+  limits:
+    cpu: 1000m
+    memory: 2048Mi
+  requests:
+    cpu: 100m
+    memory: 512Mi
+
+# extra_labels:
+#   app: "postwoman"
+#   env: "staging"
