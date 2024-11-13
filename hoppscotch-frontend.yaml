@@ -29,15 +29,26 @@ spec:
             name: hoppscotch-config
 
 ---
+# apiVersion: v1
+# kind: Service
+# metadata:
+#   name: hoppscotch-frontend
+# spec:
+#   type: NodePort
+#   ports:
+#   - port: 3000
+#     targetPort: 3000
+#     nodePort: 30000
+#   selector:
+#     app: hoppscotch-frontend
 apiVersion: v1
 kind: Service
 metadata:
   name: hoppscotch-frontend
 spec:
-  type: NodePort
+  type: ClusterIP  
   ports:
   - port: 3000
     targetPort: 3000
-    nodePort: 30000
   selector:
     app: hoppscotch-frontend

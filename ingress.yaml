@@ -83,7 +83,7 @@ spec:
             name: hoppscotch-backend
             port:
               number: 3170
-        path: /
+        path: /graphql
         pathType: Prefix
   - host: hoppscotch-admin.devbsfintech23.com
     http:

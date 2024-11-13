@@ -34,10 +34,10 @@ kind: Service
 metadata:
   name: hoppscotch-admin
 spec:
-  type: NodePort
+  type: ClusterIP
   ports:
   - port: 3100
     targetPort: 3100
-    nodePort: 31000
+    # nodePort: 31000
   selector:
     app: hoppscotch-admin
