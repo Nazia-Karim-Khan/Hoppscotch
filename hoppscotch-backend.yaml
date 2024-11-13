@@ -19,12 +19,6 @@ spec:
         envFrom:
         - configMapRef:
             name: hoppscotch-config
-      # - name: setup-cors
-      #   image: busybox
-      #   command: ["sh", "-c", "echo 'Access-Control-Allow-Origin: *' > /etc/nginx/conf.d/cors.conf"]
-      #   volumeMounts:
-      #     - name: config-volume
-      #       mountPath: /etc/nginx/conf.d
       containers:
       - name: hoppscotch-backend
         image: hoppscotch/hoppscotch-backend
@@ -47,6 +41,5 @@ spec:
   ports:
   - port: 3170
     targetPort: 3170
-    # nodePort: 31700
   selector:
     app: hoppscotch-backend
