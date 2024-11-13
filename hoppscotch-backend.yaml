@@ -1,0 +1,52 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: hoppscotch-backend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: hoppscotch-backend
+  template:
+    metadata:
+      labels:
+        app: hoppscotch-backend
+    spec:
+      initContainers:
+      - name: prisma-migrate
+        image: hoppscotch/hoppscotch-backend
+        command: ["sh", "-c", "pnpx prisma migrate deploy"]
+        envFrom:
+        - configMapRef:
+            name: hoppscotch-config
+      # - name: setup-cors
+      #   image: busybox
+      #   command: ["sh", "-c", "echo 'Access-Control-Allow-Origin: *' > /etc/nginx/conf.d/cors.conf"]
+      #   volumeMounts:
+      #     - name: config-volume
+      #       mountPath: /etc/nginx/conf.d
+      containers:
+      - name: hoppscotch-backend
+        image: hoppscotch/hoppscotch-backend
+        ports:
+        - containerPort: 3170
+        envFrom:
+        - configMapRef:
+            name: hoppscotch-config
+      volumes:
+      - name: config-volume
+        emptyDir: {}
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: hoppscotch-backend
+spec:
+  type: NodePort
+  ports:
+  - port: 3170
+    targetPort: 3170
+    nodePort: 31700
+  selector:
+    app: hoppscotch-backend

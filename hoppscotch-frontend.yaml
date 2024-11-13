@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: hoppscotch-frontend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: hoppscotch-frontend
+  template:
+    metadata:
+      labels:
+        app: hoppscotch-frontend
+    spec:
+      # initContainers:
+      # - name: prisma-migrate
+      #   image: hoppscotch/hoppscotch-frontend
+      #   command: ["sh", "-c", "pnpx prisma migrate deploy"]
+      #   envFrom:
+      #   - configMapRef:
+      #       name: hoppscotch-config
+      containers:
+      - name: hoppscotch-frontend
+        image: hoppscotch/hoppscotch-frontend
+        ports:
+        - containerPort: 3000
+        envFrom:
+        - configMapRef:
+            name: hoppscotch-config
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: hoppscotch-frontend
+spec:
+  type: NodePort
+  ports:
+  - port: 3000
+    targetPort: 3000
+    nodePort: 30000
+  selector:
+    app: hoppscotch-frontend

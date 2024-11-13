@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: hoppscotch-admin
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: hoppscotch-admin
+  template:
+    metadata:
+      labels:
+        app: hoppscotch-admin
+    spec:
+      # initContainers:
+      # - name: prisma-migrate
+      #   image: hoppscotch/hoppscotch-admin
+      #   command: ["sh", "-c", "pnpx prisma migrate deploy"]
+      #   envFrom:
+      #   - configMapRef:
+      #       name: hoppscotch-config
+      containers:
+      - name: hoppscotch-admin
+        image: hoppscotch/hoppscotch-admin
+        ports:
+        - containerPort: 3100
+        envFrom:
+        - configMapRef:
+            name: hoppscotch-config
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: hoppscotch-admin
+spec:
+  type: NodePort
+  ports:
+  - port: 3100
+    targetPort: 3100
+    nodePort: 31000
+  selector:
+    app: hoppscotch-admin
