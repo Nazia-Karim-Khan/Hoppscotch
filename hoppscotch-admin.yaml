@@ -12,13 +12,6 @@ spec:
       labels:
         app: hoppscotch-admin
     spec:
-      # initContainers:
-      # - name: prisma-migrate
-      #   image: hoppscotch/hoppscotch-admin
-      #   command: ["sh", "-c", "pnpx prisma migrate deploy"]
-      #   envFrom:
-      #   - configMapRef:
-      #       name: hoppscotch-config
       containers:
       - name: hoppscotch-admin
         image: hoppscotch/hoppscotch-admin
@@ -34,10 +27,10 @@ kind: Service
 metadata:
   name: hoppscotch-admin
 spec:
-  type: ClusterIP
+  type: NodePort
   ports:
   - port: 3100
     targetPort: 3100
-    # nodePort: 31000
+    nodePort: 31000
   selector:
     app: hoppscotch-admin

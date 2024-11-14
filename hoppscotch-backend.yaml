@@ -37,9 +37,10 @@ kind: Service
 metadata:
   name: hoppscotch-backend
 spec:
-  type: ClusterIP
+  type: NodePort
   ports:
   - port: 3170
     targetPort: 3170
+    nodePort: 31070 
   selector:
     app: hoppscotch-backend
