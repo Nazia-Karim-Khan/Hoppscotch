@@ -1,12 +1,19 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
+  annotations:
+    kubectl.kubernetes.io/last-applied-configuration: |
+      {"apiVersion":"networking.k8s.io/v1","kind":"Ingress","metadata":{"annotations":{},"name":"hoppscotch-ingress","namespace":"hoppscotch"},"spec":{"ingressClassName":"nginx","rules":[{"host":"hoppscotch-frontend.devbsfintech23.com","http":{"paths":[{"backend":{"service":{"name":"hoppscotch-frontend","port":{"number":3000}}},"path":"/","pathType":"Prefix"}]}},{"host":"hoppscotch-backend.devbsfintech23.com","http":{"paths":[{"backend":{"service":{"name":"hoppscotch-backend","port":{"number":3170}}},"path":"/","pathType":"Prefix"}]}},{"host":"hoppscotch-admin.devbsfintech23.com","http":{"paths":[{"backend":{"service":{"name":"hoppscotch-admin","port":{"number":3100}}},"path":"/","pathType":"Prefix"}]}}]}}
+  creationTimestamp: "2024-11-13T17:23:38Z"
+  generation: 3
   name: hoppscotch-ingress
   namespace: hoppscotch
+  resourceVersion: "340426398"
+  uid: c30d1c77-43c6-4182-82bb-ea4d8bbe2467
 spec:
   ingressClassName: nginx
   rules:
-  - host: hoppscotch-frontend.devbsfintech23.com
+  - host: hoppscotch-frontend.fintech23.xyz
     http:
       paths:
       - backend:
@@ -16,7 +23,7 @@ spec:
               number: 3000
         path: /
         pathType: Prefix
-  - host: hoppscotch-backend.devbsfintech23.com
+  - host: hoppscotch-backend.fintech23.xyz
     http:
       paths:
       - backend:
@@ -26,7 +33,7 @@ spec:
               number: 3170
         path: /
         pathType: Prefix
-  - host: hoppscotch-admin.devbsfintech23.com
+  - host: hoppscotch-admin.fintech23.xyz
     http:
       paths:
       - backend:
@@ -36,5 +43,13 @@ spec:
               number: 3100
         path: /
         pathType: Prefix
-
-
+  tls:
+  - hosts:
+    - hoppscotch-frontend.fintech23.xyz
+    - hoppscotch-backend.fintech23.xyz
+    - hoppscotch-admin.fintech23.xyz
+    secretName: fintech23xyz-ingress-tls
+status:
+  loadBalancer:
+    ingress:
+    - ip: 172.16.231.71
